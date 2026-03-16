@@ -1,0 +1,15 @@
+.ingredient_details {
+  padding: 0 60px 20px;
+  text-align: center;
+}
+
+.details {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+.details_item {
+  flex-grow: 1;
+  text-align: center;
+}

@@ -1,4 +1,9 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
+import { useState, useRef, useCallback } from 'react';
+
+import IngredientCard from '../ingredient-card/ingredient-card';
+import { IngredientDetails } from '../ingredient-details/ingredient-details';
+import { Modal } from '../modal/modal';
 
 import type { TIngredient } from '@utils/types';
 
@@ -8,44 +13,123 @@ type TBurgerIngredientsProps = {
   ingredients: TIngredient[];
 };
 
+type TIngredientType = 'bun' | 'main' | 'sauce';
+
 export const BurgerIngredients = ({
   ingredients,
 }: TBurgerIngredientsProps): React.JSX.Element => {
-  console.log(ingredients);
+  const [activeTab, setActiveTab] = useState<TIngredientType>('bun');
+  const [activeIngredient, setActiveIngredient] = useState<TIngredient | null>(null);
+
+  const bunIngredientsTitleRef = useRef(null);
+  const mainIngredientsTitleRef = useRef(null);
+  const sauceIngredientsTitleRef = useRef(null);
+
+  const handleTabClick = (
+    activeTab: TIngredientType,
+    element: HTMLHeadingElement | null
+  ): void => {
+    setActiveTab(activeTab);
+    element?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const bunIngredients = ingredients.filter((ingredient) => ingredient.type === 'bun');
+  const mainIngredients = ingredients.filter((ingredient) => ingredient.type === 'main');
+  const sauceIngredients = ingredients.filter(
+    (ingredient) => ingredient.type === 'sauce'
+  );
+
+  const handleIngredientClick = useCallback(
+    (ingredient: TIngredient) => setActiveIngredient(ingredient),
+    []
+  );
 
   return (
-    <section className={styles.burger_ingredients}>
+    <section className={`${styles.burger_ingredients} pb-10`}>
       <nav>
         <ul className={styles.menu}>
           <Tab
             value="bun"
-            active={true}
-            onClick={() => {
-              /* TODO */
-            }}
+            active={activeTab === 'bun'}
+            onClick={() => handleTabClick('bun', bunIngredientsTitleRef.current)}
           >
             Булки
           </Tab>
           <Tab
             value="main"
-            active={false}
-            onClick={() => {
-              /* TODO */
-            }}
+            active={activeTab === 'main'}
+            onClick={() => handleTabClick('main', mainIngredientsTitleRef.current)}
           >
             Начинки
           </Tab>
           <Tab
             value="sauce"
-            active={false}
-            onClick={() => {
-              /* TODO */
-            }}
+            active={activeTab === 'sauce'}
+            onClick={() => handleTabClick('sauce', sauceIngredientsTitleRef.current)}
           >
             Соусы
           </Tab>
         </ul>
       </nav>
+
+      <section className={`${styles.ingredients_section} custom-scroll`}>
+        <h2
+          className={`text text_type_main-medium mt-10 mb-6`}
+          ref={bunIngredientsTitleRef}
+        >
+          Булки
+        </h2>
+
+        <div className={`${styles.ingredients_container} pl-4 pr-4`}>
+          {bunIngredients.map((ingredient) => (
+            <IngredientCard
+              key={ingredient._id}
+              ingredient={ingredient}
+              onClick={handleIngredientClick}
+            />
+          ))}
+        </div>
+
+        <h2
+          className={`text text_type_main-medium mt-10 mb-6`}
+          ref={mainIngredientsTitleRef}
+        >
+          Начинки
+        </h2>
+
+        <div className={`${styles.ingredients_container} pl-4 pr-4`}>
+          {mainIngredients.map((ingredient) => (
+            <IngredientCard
+              key={ingredient._id}
+              ingredient={ingredient}
+              onClick={handleIngredientClick}
+            />
+          ))}
+        </div>
+
+        <h2
+          className={`text text_type_main-medium mt-10 mb-6`}
+          ref={sauceIngredientsTitleRef}
+        >
+          Соусы
+        </h2>
+
+        <div className={`${styles.ingredients_container} pl-4 pr-4`}>
+          {sauceIngredients.map((ingredient) => (
+            <IngredientCard
+              key={ingredient._id}
+              ingredient={ingredient}
+              onClick={handleIngredientClick}
+            />
+          ))}
+        </div>
+      </section>
+
+      {activeIngredient && (
+        <Modal title="Детали ингредиента" onClose={() => setActiveIngredient(null)}>
+          <IngredientDetails ingredient={activeIngredient} />
+        </Modal>
+      )}
     </section>
   );
 };

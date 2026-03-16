@@ -13,3 +13,12 @@
   text-align: center;
   list-style-type: none;
 }
+
+.ingredients_section {
+  overflow-y: scroll;
+}
+
+.ingredients_container {
+  display: flex;
+  flex-wrap: wrap;
+}
