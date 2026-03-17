@@ -9,7 +9,7 @@ export const IngredientDetails = ({
 }): React.JSX.Element => {
   return (
     <section className={styles.ingredient_details}>
-      <img src={image_large} alt="ingredient" />
+      <img src={image_large} alt={name} />
       <p className="text text_type_main-medium mt-4 mb-8">{name}</p>
       <div className={styles.details}>
         <div className={styles.details_item}>

@@ -19,7 +19,7 @@ const IngredientCard = ({
   const { name, price, image } = ingredient;
   return (
     <div className={styles.card} onClick={() => onClick(ingredient)}>
-      <img className="mb-1" src={image} />
+      <img className="mb-1" src={image} alt={name} />
       <div className={`${styles.price_container} mb-1`}>
         <p className="text text_type_digits-default">{price}</p>
         <CurrencyIcon type="primary" />

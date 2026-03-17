@@ -15,13 +15,13 @@ type TModalProps = {
 };
 
 export const Modal = ({ title, children, onClose }: TModalProps): React.ReactPortal => {
-  const handleClick = (event: KeyboardEvent): void => {
-    if (event.key === 'Escape') {
-      onClose();
-    }
-  };
-
   useEffect(() => {
+    const handleClick = (event: KeyboardEvent): void => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
     document.addEventListener('keydown', handleClick);
 
     return (): void => {

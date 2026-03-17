@@ -34,10 +34,11 @@ export const BurgerConstructor = ({
         {bunIngredientMock && (
           <div className={`${styles.element_wrapper} mb-4 pl-7`}>
             <ConstructorElement
-              text={bunIngredientMock.name}
+              text={`${bunIngredientMock.name} (верх)`}
               price={bunIngredientMock.price}
               thumbnail={bunIngredientMock.image}
               type="top"
+              isLocked={true}
             />
           </div>
         )}
@@ -54,13 +55,15 @@ export const BurgerConstructor = ({
             </div>
           ))}
         </div>
+
         {bunIngredientMock && (
           <div className={`${styles.element_wrapper} mt-4 mb-4 pl-7`}>
             <ConstructorElement
-              text={bunIngredientMock.name}
+              text={`${bunIngredientMock.name} (низ)`}
               price={bunIngredientMock.price}
               thumbnail={bunIngredientMock.image}
               type="bottom"
+              isLocked={true}
             />
           </div>
         )}

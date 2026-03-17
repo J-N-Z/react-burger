@@ -18,14 +18,18 @@ export const App = (): React.JSX.Element => {
     setIsLoading(true);
     fetch(API_URL_INGREDIENTS)
       .then((response) => {
-        return response.json();
+        if (response.ok) {
+          return response.json();
+        }
+        return Promise.reject(new Error(`Ошибка ${response.status}`));
       })
       .then((response: TIngredientsResponse) => {
         setIngredients(response.data);
-        setIsLoading(false);
       })
       .catch((error) => {
         console.log(`Произошла ошибка`, error);
+      })
+      .finally(() => {
         setIsLoading(false);
       });
   }, []);
