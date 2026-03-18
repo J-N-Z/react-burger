@@ -1,0 +1,22 @@
+.card {
+  position: relative;
+  width: 272px;
+  text-align: center;
+}
+
+.price_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.name {
+  height: 48px;
+}
+
+.counter {
+  position: absolute;
+  top: 0;
+  right: 0;
+}

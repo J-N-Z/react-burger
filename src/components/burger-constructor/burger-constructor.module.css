@@ -5,3 +5,33 @@
   padding-bottom: 20px;
   color: var(--text-primary-color);
 }
+
+.element_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.scroll_container {
+  height: calc(100vh - 540px);
+  overflow-y: scroll;
+}
+
+.price_icon {
+  width: 33px;
+  height: 33px;
+}
+
+.price_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 40px;
+}
