@@ -1,5 +1,11 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useState, useRef, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import {
+  getActiveIngredientSelector,
+  setActiveIngredient,
+} from '@services/ingredients/reducer';
 
 import IngredientCard from '../ingredient-card/ingredient-card';
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
@@ -18,12 +24,16 @@ type TIngredientType = 'bun' | 'main' | 'sauce';
 export const BurgerIngredients = ({
   ingredients,
 }: TBurgerIngredientsProps): React.JSX.Element => {
-  const [activeTab, setActiveTab] = useState<TIngredientType>('bun');
-  const [activeIngredient, setActiveIngredient] = useState<TIngredient | null>(null);
+  const dispatch = useDispatch();
 
-  const bunIngredientsTitleRef = useRef(null);
-  const mainIngredientsTitleRef = useRef(null);
-  const sauceIngredientsTitleRef = useRef(null);
+  const [activeTab, setActiveTab] = useState<TIngredientType>('bun');
+
+  const activeIngredient = useSelector(getActiveIngredientSelector);
+
+  const ingredientsSectionRef = useRef<HTMLElement>(null);
+  const bunIngredientsTitleRef = useRef<HTMLHeadingElement>(null);
+  const mainIngredientsTitleRef = useRef<HTMLHeadingElement>(null);
+  const sauceIngredientsTitleRef = useRef<HTMLHeadingElement>(null);
 
   const handleTabClick = (
     activeTab: TIngredientType,
@@ -40,9 +50,48 @@ export const BurgerIngredients = ({
   );
 
   const handleIngredientClick = useCallback(
-    (ingredient: TIngredient) => setActiveIngredient(ingredient),
+    (ingredient: TIngredient) => dispatch(setActiveIngredient(ingredient)),
     []
   );
+
+  const handleScroll = (): void => {
+    // минимальное расстояние при котором сработает переключение табов
+    const OFFSET = 300;
+
+    if (
+      ingredientsSectionRef.current &&
+      bunIngredientsTitleRef.current &&
+      mainIngredientsTitleRef.current &&
+      sauceIngredientsTitleRef.current
+    ) {
+      const ingredientsSectionTop =
+        ingredientsSectionRef.current.getBoundingClientRect().top;
+      const bunIngredientsTitleTop =
+        bunIngredientsTitleRef.current.getBoundingClientRect().top;
+      const mainIngredientsTitleTop =
+        mainIngredientsTitleRef.current.getBoundingClientRect().top;
+      const sauceIngredientsTitleTop =
+        sauceIngredientsTitleRef.current.getBoundingClientRect().top;
+
+      const bunElementOffset = Math.abs(bunIngredientsTitleTop - ingredientsSectionTop);
+      const mainElementOffset = Math.abs(
+        mainIngredientsTitleTop - ingredientsSectionTop
+      );
+      const sauceElementOffset = Math.abs(
+        sauceIngredientsTitleTop - ingredientsSectionTop
+      );
+
+      if (bunElementOffset < OFFSET && activeTab !== 'bun') {
+        setActiveTab('bun');
+      }
+      if (mainElementOffset < OFFSET && activeTab !== 'main') {
+        setActiveTab('main');
+      }
+      if (sauceElementOffset < OFFSET && activeTab !== 'sauce') {
+        setActiveTab('sauce');
+      }
+    }
+  };
 
   return (
     <section className={`${styles.burger_ingredients} pb-10`}>
@@ -72,7 +121,11 @@ export const BurgerIngredients = ({
         </ul>
       </nav>
 
-      <section className={`${styles.ingredients_section} custom-scroll`}>
+      <section
+        className={`${styles.ingredients_section} custom-scroll`}
+        onScroll={handleScroll}
+        ref={ingredientsSectionRef}
+      >
         <h2
           className={`text text_type_main-medium mt-10 mb-6`}
           ref={bunIngredientsTitleRef}
@@ -126,7 +179,10 @@ export const BurgerIngredients = ({
       </section>
 
       {activeIngredient && (
-        <Modal title="Детали ингредиента" onClose={() => setActiveIngredient(null)}>
+        <Modal
+          title="Детали ингредиента"
+          onClose={() => dispatch(setActiveIngredient(null))}
+        >
           <IngredientDetails ingredient={activeIngredient} />
         </Modal>
       )}

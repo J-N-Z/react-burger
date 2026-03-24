@@ -13,6 +13,8 @@ export type TIngredient = {
   __v: number;
 };
 
+export type TIngredientWithId = TIngredient & { id: string };
+
 export type TIngredientsResponse = {
   data: TIngredient[];
   success: boolean;

@@ -1,37 +1,28 @@
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { AppHeader } from '@components/app-header/app-header';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
-import { API_URL_INGREDIENTS } from '@utils/constants';
-
-import type { TIngredient, TIngredientsResponse } from '@utils/types';
+import { loadIngredients } from '@services/ingredients/actions';
+import {
+  getIngredientsSelector,
+  getIngredientsIsLoadingSelector,
+} from '@services/ingredients/reducer';
 
 import styles from './app.module.css';
 
 export const App = (): React.JSX.Element => {
-  const [ingredients, setIngredients] = useState<TIngredient[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  const ingredients = useSelector(getIngredientsSelector);
+  const isLoading = useSelector(getIngredientsIsLoadingSelector);
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch(API_URL_INGREDIENTS)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        return Promise.reject(new Error(`Ошибка ${response.status}`));
-      })
-      .then((response: TIngredientsResponse) => {
-        setIngredients(response.data);
-      })
-      .catch((error) => {
-        console.log(`Произошла ошибка`, error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    dispatch(loadIngredients());
   }, []);
 
   if (isLoading) {
@@ -48,10 +39,12 @@ export const App = (): React.JSX.Element => {
       <h1 className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}>
         Соберите бургер
       </h1>
-      <main className={`${styles.main} pl-5 pr-5`}>
-        <BurgerIngredients ingredients={ingredients} />
-        <BurgerConstructor ingredients={ingredients} />
-      </main>
+      <DndProvider backend={HTML5Backend}>
+        <main className={`${styles.main} pl-5 pr-5`}>
+          <BurgerIngredients ingredients={ingredients} />
+          <BurgerConstructor />
+        </main>
+      </DndProvider>
     </div>
   );
 };

@@ -5,76 +5,117 @@ import {
   DragIcon,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
+import { useDrop } from 'react-dnd';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { createOrder } from '@services/ingredients/actions';
+import {
+  addIngredient,
+  deleteIngredient,
+  getBunSelector,
+  getFillingIngredientsSelector,
+  getTotalPriceSelector,
+} from '@services/ingredients/reducer';
 
 import { Modal } from '../modal/modal';
 import { OrderDetails } from '../order-details/order-details';
 
-import type { TIngredient } from '@utils/types';
-
 import styles from './burger-constructor.module.css';
 
-type TBurgerConstructorProps = {
-  ingredients: TIngredient[];
-};
-
-export const BurgerConstructor = ({
-  ingredients,
-}: TBurgerConstructorProps): React.JSX.Element => {
+export const BurgerConstructor = (): React.JSX.Element => {
   const [showModal, setShowModal] = useState(false);
+  const dispatch = useDispatch();
 
-  const innerIngredients = ingredients.filter((ingredient) => ingredient.type !== 'bun');
-  const bunIngredients = ingredients.filter((ingredient) => ingredient.type === 'bun');
+  const bun = useSelector(getBunSelector);
+  const fillingIngredients = useSelector(getFillingIngredientsSelector);
+  const totalPrice = useSelector(getTotalPriceSelector);
 
-  // TODO Доработать логику подстановки булок, когда будет ТЗ
-  const bunIngredientMock = bunIngredients[0];
+  const [, dropTarget] = useDrop({
+    accept: 'ingredient',
+    drop(ingredient) {
+      dispatch(addIngredient(ingredient));
+    },
+  });
 
   return (
     <section className={`${styles.burger_constructor}`}>
-      <div className="pl-4 pr-4">
-        {bunIngredientMock && (
+      <div className="pl-4 pr-4" ref={dropTarget}>
+        {bun ? (
           <div className={`${styles.element_wrapper} mb-4 pl-7`}>
             <ConstructorElement
-              text={`${bunIngredientMock.name} (верх)`}
-              price={bunIngredientMock.price}
-              thumbnail={bunIngredientMock.image}
+              text={`${bun.name} (верх)`}
+              price={bun.price}
+              thumbnail={bun.image}
               type="top"
               isLocked={true}
             />
           </div>
+        ) : (
+          <div className={`${styles.burger_constructor_dummy} mb-4 pl-7`}>
+            <div className="constructor-element constructor-element_pos_top">
+              Выберите булки
+            </div>
+          </div>
         )}
 
         <div className={`${styles.scroll_container} custom-scroll pr-1`}>
-          {innerIngredients.map((ingredient) => (
-            <div key={ingredient._id} className={`${styles.element_wrapper} mb-4`}>
-              <DragIcon type="primary" />
-              <ConstructorElement
-                text={ingredient.name}
-                price={ingredient.price}
-                thumbnail={ingredient.image}
-              />
+          {fillingIngredients.length ? (
+            <>
+              {fillingIngredients.map((ingredient) => (
+                <div key={ingredient.id} className={`${styles.element_wrapper} mb-4`}>
+                  <DragIcon type="primary" />
+                  <ConstructorElement
+                    text={ingredient.name}
+                    price={ingredient.price}
+                    thumbnail={ingredient.image}
+                    handleClose={() => dispatch(deleteIngredient(ingredient.id))}
+                  />
+                </div>
+              ))}
+            </>
+          ) : (
+            <div className={`${styles.burger_constructor_dummy} mb-4 pl-7`}>
+              <div className="constructor-element">Выберите начинку</div>
             </div>
-          ))}
+          )}
         </div>
 
-        {bunIngredientMock && (
-          <div className={`${styles.element_wrapper} mt-4 mb-4 pl-7`}>
+        {bun ? (
+          <div className={`${styles.element_wrapper} mb-4 pl-7`}>
             <ConstructorElement
-              text={`${bunIngredientMock.name} (низ)`}
-              price={bunIngredientMock.price}
-              thumbnail={bunIngredientMock.image}
+              text={`${bun.name} (низ)`}
+              price={bun.price}
+              thumbnail={bun.image}
               type="bottom"
               isLocked={true}
             />
           </div>
+        ) : (
+          <div className={`${styles.burger_constructor_dummy} mb-4 pl-7`}>
+            <div className="constructor-element constructor-element_pos_bottom">
+              Выберите булки
+            </div>
+          </div>
         )}
       </div>
+
       <div className={`${styles.footer} pt-10 pb-8 pl-4 pr-4`}>
         <div className={`${styles.price_container} mb-1`}>
-          <p className="text text_type_digits-medium">610</p>
+          <p className="text text_type_digits-medium">{totalPrice}</p>
           <CurrencyIcon className={`${styles.price_icon}`} type="primary" />
         </div>
         <Button
-          onClick={() => setShowModal(true)}
+          onClick={() => {
+            if (bun && fillingIngredients.length) {
+              const orderIngredientsIds = [
+                bun._id,
+                ...fillingIngredients.map((ingredient) => ingredient._id),
+                bun._id,
+              ];
+              setShowModal(true);
+              dispatch(createOrder(orderIngredientsIds));
+            }
+          }}
           size="large"
           type="primary"
           htmlType="button"
