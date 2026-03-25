@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { useDrag } from 'react-dnd';
 import { useSelector } from 'react-redux';
 
-import { getIngredientCount } from '@services/ingredients/reducer';
+import { getIngredientCount } from '@services/ingredients/reducers';
 
 import type { TIngredient } from '@utils/types';
 

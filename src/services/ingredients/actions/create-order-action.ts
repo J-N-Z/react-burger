@@ -1,14 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { getIngredients, createOrder as sendOrder } from '../../utils/api';
-
-export const loadIngredients = createAsyncThunk(
-  'ingredients/loadIngredients',
-  async () => {
-    const response = await getIngredients();
-    return response;
-  }
-);
+import { createOrder as sendOrder } from '../../../utils/api';
 
 export const createOrder = createAsyncThunk(
   'ingredients/createOrder',

@@ -3,9 +3,10 @@ import { useState, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
+  getIngredientsSelector,
   getActiveIngredientSelector,
   setActiveIngredient,
-} from '@services/ingredients/reducer';
+} from '@services/ingredients/reducers';
 
 import IngredientCard from '../ingredient-card/ingredient-card';
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
@@ -15,19 +16,14 @@ import type { TIngredient } from '@utils/types';
 
 import styles from './burger-ingredients.module.css';
 
-type TBurgerIngredientsProps = {
-  ingredients: TIngredient[];
-};
-
 type TIngredientType = 'bun' | 'main' | 'sauce';
 
-export const BurgerIngredients = ({
-  ingredients,
-}: TBurgerIngredientsProps): React.JSX.Element => {
+export const BurgerIngredients = (): React.JSX.Element => {
   const dispatch = useDispatch();
 
   const [activeTab, setActiveTab] = useState<TIngredientType>('bun');
 
+  const ingredients = useSelector(getIngredientsSelector);
   const activeIngredient = useSelector(getActiveIngredientSelector);
 
   const ingredientsSectionRef = useRef<HTMLElement>(null);

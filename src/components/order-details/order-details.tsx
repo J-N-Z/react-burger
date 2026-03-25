@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import {
   getOrderNumberSelector,
   getOrderNumberIsLoadingSelector,
-} from '@services/ingredients/reducer';
+} from '@services/ingredients/reducers';
 
 import styles from './order-details.module.css';
 

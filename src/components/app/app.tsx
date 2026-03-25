@@ -8,17 +8,13 @@ import { AppHeader } from '@components/app-header/app-header';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
 import { loadIngredients } from '@services/ingredients/actions';
-import {
-  getIngredientsSelector,
-  getIngredientsIsLoadingSelector,
-} from '@services/ingredients/reducer';
+import { getIngredientsIsLoadingSelector } from '@services/ingredients/reducers';
 
 import styles from './app.module.css';
 
 export const App = (): React.JSX.Element => {
   const dispatch = useDispatch();
 
-  const ingredients = useSelector(getIngredientsSelector);
   const isLoading = useSelector(getIngredientsIsLoadingSelector);
 
   useEffect(() => {
@@ -41,7 +37,7 @@ export const App = (): React.JSX.Element => {
       </h1>
       <DndProvider backend={HTML5Backend}>
         <main className={`${styles.main} pl-5 pr-5`}>
-          <BurgerIngredients ingredients={ingredients} />
+          <BurgerIngredients />
           <BurgerConstructor />
         </main>
       </DndProvider>

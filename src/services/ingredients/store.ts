@@ -5,7 +5,7 @@ import {
   activeIngredientSlice,
   orderSlice,
   draggableIngredientSlice,
-} from './reducer';
+} from './reducers';
 
 const rootReducer = combineSlices(
   ingredientsSlice,

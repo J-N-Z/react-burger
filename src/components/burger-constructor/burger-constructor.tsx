@@ -2,7 +2,6 @@ import {
   ConstructorElement,
   Button,
   CurrencyIcon,
-  DragIcon,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
 import { useDrop } from 'react-dnd';
@@ -15,8 +14,9 @@ import {
   getBunSelector,
   getFillingIngredientsSelector,
   getTotalPriceSelector,
-} from '@services/ingredients/reducer';
+} from '@services/ingredients/reducers';
 
+import { DraggableConstructorElement } from '../draggabale-constructor-element/draggabale-constructor-element';
 import { Modal } from '../modal/modal';
 import { OrderDetails } from '../order-details/order-details';
 
@@ -61,16 +61,13 @@ export const BurgerConstructor = (): React.JSX.Element => {
         <div className={`${styles.scroll_container} custom-scroll pr-1`}>
           {fillingIngredients.length ? (
             <>
-              {fillingIngredients.map((ingredient) => (
-                <div key={ingredient.id} className={`${styles.element_wrapper} mb-4`}>
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                    text={ingredient.name}
-                    price={ingredient.price}
-                    thumbnail={ingredient.image}
-                    handleClose={() => dispatch(deleteIngredient(ingredient.id))}
-                  />
-                </div>
+              {fillingIngredients.map((ingredient, index) => (
+                <DraggableConstructorElement
+                  key={ingredient.id}
+                  index={index}
+                  ingredient={ingredient}
+                  onDelete={() => dispatch(deleteIngredient(ingredient.id))}
+                />
               ))}
             </>
           ) : (
