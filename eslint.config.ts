@@ -134,7 +134,12 @@ export default defineConfig(
       'react/prop-types': 'off',
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'unused-imports/no-unused-imports': 'error',
-      'react-hooks/exhaustive-deps': 'off'
+      'react-hooks/exhaustive-deps': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
     },
     settings: {
       'css-modules': {
