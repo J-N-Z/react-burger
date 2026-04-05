@@ -2,6 +2,23 @@ body {
   margin: 0;
 }
 
+/* Общие стили для страниц с формами */
+
+.form-page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.form-page-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 /* Fix for scrollbar */
 
 @supports (scrollbar-color: auto) {

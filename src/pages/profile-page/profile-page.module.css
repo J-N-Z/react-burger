@@ -1,0 +1,22 @@
+.container {
+  max-width: 1240px;
+  margin: 80px auto 0;
+}
+
+.main {
+  display: flex;
+  gap: 80px;
+  margin-top: 80px;
+}
+
+.nav {
+  width: 310px;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.link_active {
+  color: inherit;
+}

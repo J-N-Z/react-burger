@@ -11,13 +11,9 @@ import styles from './ingredient-card.module.css';
 
 type TIngredientCardProps = {
   ingredient: TIngredient;
-  onClick?: (ingredient: TIngredient) => void;
 };
 
-const IngredientCard = ({
-  ingredient,
-  onClick,
-}: TIngredientCardProps): React.JSX.Element => {
+const IngredientCard = ({ ingredient }: TIngredientCardProps): React.JSX.Element => {
   const { name, price, image } = ingredient;
 
   const count = useSelector((state) => getIngredientCount(state, ingredient)) as number;
@@ -28,7 +24,7 @@ const IngredientCard = ({
   });
 
   return (
-    <div className={styles.card} onClick={() => onClick(ingredient)} ref={dragRef}>
+    <div className={styles.card} ref={dragRef}>
       <img className="mb-1" src={image} alt={name} />
       <div className={`${styles.price_container} mb-1`}>
         <p className="text text_type_digits-default">{price}</p>

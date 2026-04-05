@@ -1,30 +1,22 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
-import { useState, useRef, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 
-import {
-  getIngredientsSelector,
-  getActiveIngredientSelector,
-  setActiveIngredient,
-} from '@services/ingredients/reducers';
+import { getIngredientsSelector } from '@services/ingredients/reducers';
 
 import IngredientCard from '../ingredient-card/ingredient-card';
-import { IngredientDetails } from '../ingredient-details/ingredient-details';
-import { Modal } from '../modal/modal';
-
-import type { TIngredient } from '@utils/types';
 
 import styles from './burger-ingredients.module.css';
 
 type TIngredientType = 'bun' | 'main' | 'sauce';
 
 export const BurgerIngredients = (): React.JSX.Element => {
-  const dispatch = useDispatch();
+  const location = useLocation();
 
   const [activeTab, setActiveTab] = useState<TIngredientType>('bun');
 
   const ingredients = useSelector(getIngredientsSelector);
-  const activeIngredient = useSelector(getActiveIngredientSelector);
 
   const ingredientsSectionRef = useRef<HTMLElement>(null);
   const bunIngredientsTitleRef = useRef<HTMLHeadingElement>(null);
@@ -43,11 +35,6 @@ export const BurgerIngredients = (): React.JSX.Element => {
   const mainIngredients = ingredients.filter((ingredient) => ingredient.type === 'main');
   const sauceIngredients = ingredients.filter(
     (ingredient) => ingredient.type === 'sauce'
-  );
-
-  const handleIngredientClick = useCallback(
-    (ingredient: TIngredient) => dispatch(setActiveIngredient(ingredient)),
-    []
   );
 
   const handleScroll = (): void => {
@@ -131,11 +118,14 @@ export const BurgerIngredients = (): React.JSX.Element => {
 
         <div className={`${styles.ingredients_container} pl-4 pr-4`}>
           {bunIngredients.map((ingredient) => (
-            <IngredientCard
+            <Link
               key={ingredient._id}
-              ingredient={ingredient}
-              onClick={handleIngredientClick}
-            />
+              to={`/ingredients/${ingredient._id}`}
+              state={{ backgroundLocation: location }}
+              className={styles.link}
+            >
+              <IngredientCard ingredient={ingredient} />
+            </Link>
           ))}
         </div>
 
@@ -148,11 +138,14 @@ export const BurgerIngredients = (): React.JSX.Element => {
 
         <div className={`${styles.ingredients_container} pl-4 pr-4`}>
           {mainIngredients.map((ingredient) => (
-            <IngredientCard
+            <Link
               key={ingredient._id}
-              ingredient={ingredient}
-              onClick={handleIngredientClick}
-            />
+              to={`/ingredients/${ingredient._id}`}
+              state={{ backgroundLocation: location }}
+              className={styles.link}
+            >
+              <IngredientCard ingredient={ingredient} />
+            </Link>
           ))}
         </div>
 
@@ -165,23 +158,17 @@ export const BurgerIngredients = (): React.JSX.Element => {
 
         <div className={`${styles.ingredients_container} pl-4 pr-4`}>
           {sauceIngredients.map((ingredient) => (
-            <IngredientCard
+            <Link
               key={ingredient._id}
-              ingredient={ingredient}
-              onClick={handleIngredientClick}
-            />
+              to={`/ingredients/${ingredient._id}`}
+              state={{ backgroundLocation: location }}
+              className={styles.link}
+            >
+              <IngredientCard ingredient={ingredient} />
+            </Link>
           ))}
         </div>
       </section>
-
-      {activeIngredient && (
-        <Modal
-          title="Детали ингредиента"
-          onClose={() => dispatch(setActiveIngredient(null))}
-        >
-          <IngredientDetails ingredient={activeIngredient} />
-        </Modal>
-      )}
     </section>
   );
 };
