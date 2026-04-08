@@ -5,7 +5,7 @@ import {
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import { passwordResetAction } from '@services/ingredients/actions/user-actions';
 
@@ -32,6 +32,14 @@ export const ResetPasswordPage = (): React.JSX.Element => {
       );
     }
   };
+
+  const forgotPasswordPageVisited = localStorage.getItem('forgotPasswordPageVisited');
+
+  if (!forgotPasswordPageVisited) {
+    return <Navigate to="/login" replace={true} />;
+  } else {
+    localStorage.removeItem('forgotPasswordPageVisited');
+  }
 
   return (
     <div className="form-page-wrapper">

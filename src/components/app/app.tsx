@@ -48,7 +48,7 @@ export const App = (): React.JSX.Element => {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Routes>
+      <Routes location={backgroundLocation ?? location}>
         <Route path="/" element={<Home />} />
         <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
         <Route

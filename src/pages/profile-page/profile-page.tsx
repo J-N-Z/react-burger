@@ -6,7 +6,7 @@ import {
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
 
 import {
   logoutAction,
@@ -22,6 +22,7 @@ export const ProfilePage = (): React.JSX.Element => {
   const [form, setForm] = useState({ name: user.name, email: user.email, password: '' });
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -41,7 +42,7 @@ export const ProfilePage = (): React.JSX.Element => {
   };
 
   const handleLogout = (): void => {
-    dispatch(logoutAction());
+    dispatch(logoutAction(() => navigate('/login')));
   };
 
   const isFieldsChanged =

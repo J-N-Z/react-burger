@@ -4,11 +4,10 @@ import {
   register,
   login,
   logout,
-  updateRefreshToken,
   updateUser,
   passwordResetCheckEmail,
   passwordReset,
-} from '../../../utils/api';
+} from '@utils/api';
 
 export const registerAction = createAsyncThunk(
   'user/register',
@@ -67,27 +66,20 @@ export const updateUserAction = createAsyncThunk(
   }
 );
 
-export const logoutAction = createAsyncThunk('user/logout', async () => {
-  const response = await logout();
+export const logoutAction = createAsyncThunk(
+  'user/logout',
+  async (callback: () => void) => {
+    const response = await logout();
 
-  if (response.success) {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    if (response.success) {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      callback();
+    }
+
+    return response;
   }
-
-  return response;
-});
-
-export const refreshTokenAction = createAsyncThunk('user/refresh', async () => {
-  const response = await updateRefreshToken();
-
-  if (response.success) {
-    localStorage.setItem('accessToken', response.accessToken);
-    localStorage.setItem('refreshToken', response.refreshToken);
-  }
-
-  return response;
-});
+);
 
 export const passwordResetCheckEmailAction = createAsyncThunk(
   'user/resetPassword',

@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import { IngredientDetails } from '@components/ingredient-details/ingredient-details';
 import { getIngredientsSelector } from '@services/ingredients/reducers/get-ingredients-reducer';
 
+import styles from './ingredient-details-page.module.css';
+
 export const IngredientDetailsPage = () => {
   const { id } = useParams();
 
@@ -12,5 +14,9 @@ export const IngredientDetailsPage = () => {
 
   if (!ingredient) return null;
 
-  return <IngredientDetails ingredient={ingredient} />;
+  return (
+    <div className={styles.container}>
+      <IngredientDetails ingredient={ingredient} />
+    </div>
+  );
 };

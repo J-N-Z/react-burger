@@ -21,7 +21,10 @@ export const ForgotPasswordPage = (): React.JSX.Element => {
       dispatch(
         passwordResetCheckEmailAction({
           email,
-          callback: () => navigate('/reset-password'),
+          callback: () => {
+            localStorage.setItem('forgotPasswordPageVisited', 'true');
+            navigate('/reset-password');
+          },
         })
       );
     }

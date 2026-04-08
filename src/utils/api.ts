@@ -1,14 +1,4 @@
-import {
-  API_URL_INGREDIENTS,
-  API_URL_ORDERS,
-  API_URL_REGISTER,
-  API_URL_LOGIN,
-  API_URL_REFRESH_TOKEN,
-  API_URL_LOGOUT,
-  API_URL_USER_DATA,
-  API_URL_USER_PASSWORD_FORGOT,
-  API_URL_USER_PASSWORD_RESET,
-} from './constants';
+import { API_URL_BASE, ENDPOINTS } from './constants';
 
 const getResponse = (response: Response): Promise => {
   if (response.ok) {
@@ -18,18 +8,68 @@ const getResponse = (response: Response): Promise => {
   return Promise.reject(new Error(`Ошибка ${response.status}`));
 };
 
+/**
+ * Обертка над fetch
+ * @param endpoint endpoint запроса
+ * @param options Объект опций аналогично fetch
+ */
+const request = (endpoint: string, options?: RequestInit) => {
+  const url = `${API_URL_BASE}${endpoint}`;
+  return fetch(url, options).then(getResponse);
+};
+
+export const refreshToken = async (): Promise => {
+  const refreshData = await request(ENDPOINTS.REFRESH_TOKEN, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ token: localStorage.getItem('refreshToken') }),
+  });
+
+  localStorage.setItem('accessToken', refreshData.accessToken);
+  localStorage.setItem('refreshToken', refreshData.refreshToken);
+
+  return refreshData;
+};
+
+/**
+ * Обертка над request cо встроенным обновлением токена
+ * при получении ошибки авторизации
+ */
+const fetchWithRefresh = async (endpoint: string, options: RequestInit) => {
+  try {
+    return await request(endpoint, options);
+  } catch (error) {
+    if (error.statusCode === 401 || error.statusCode === 403) {
+      const refreshData = await refreshToken();
+
+      return request(endpoint, {
+        ...options,
+        headers: {
+          ...options.headers,
+          authorization: refreshData.accessToken,
+        },
+      });
+    } else {
+      throw error;
+    }
+  }
+};
+
 export const getIngredients = (): Promise => {
-  return fetch(API_URL_INGREDIENTS).then(getResponse);
+  return request(ENDPOINTS.INGREDIENTS);
 };
 
 export const createOrder = (ingredientsIds: string[]): Promise => {
-  return fetch(API_URL_ORDERS, {
+  return fetchWithRefresh(ENDPOINTS.ORDERS, {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: {
+      'content-type': 'application/json',
+      authorization: localStorage.getItem('accessToken'),
+    },
     body: JSON.stringify({
       ingredients: ingredientsIds,
     }),
-  }).then(getResponse);
+  });
 };
 
 /********************************************************
@@ -45,7 +85,7 @@ export const register = ({
   email: string;
   password: string;
 }): Promise => {
-  return fetch(API_URL_REGISTER, {
+  return request(ENDPOINTS.REGISTER, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
@@ -53,7 +93,7 @@ export const register = ({
       email,
       password,
     }),
-  }).then(getResponse);
+  });
 };
 
 export const login = ({
@@ -63,33 +103,33 @@ export const login = ({
   email: string;
   password: string;
 }): Promise => {
-  return fetch(API_URL_LOGIN, {
+  return request(ENDPOINTS.LOGIN, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
       email,
       password,
     }),
-  }).then(getResponse);
+  });
 };
 
 export const logout = (): Promise => {
-  return fetch(API_URL_LOGOUT, {
+  return request(ENDPOINTS.LOGOUT, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
       token: localStorage.getItem('refreshToken'),
     }),
-  }).then(getResponse);
+  });
 };
 
 export const getUser = (): Promise => {
-  return fetch(API_URL_USER_DATA, {
+  return fetchWithRefresh(ENDPOINTS.USER_DATA, {
     method: 'GET',
     headers: {
       authorization: localStorage.getItem('accessToken'),
     },
-  }).then(getResponse);
+  });
 };
 
 export const updateUser = ({
@@ -101,7 +141,7 @@ export const updateUser = ({
   email: string;
   password: string;
 }): Promise => {
-  return fetch(API_URL_USER_DATA, {
+  return fetchWithRefresh(ENDPOINTS.USER_DATA, {
     method: 'PATCH',
     headers: {
       'content-type': 'application/json',
@@ -112,27 +152,17 @@ export const updateUser = ({
       email,
       password,
     }),
-  }).then(getResponse);
-};
-
-export const updateRefreshToken = (): Promise => {
-  return fetch(API_URL_REFRESH_TOKEN, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
-      token: localStorage.getItem('refreshToken'),
-    }),
-  }).then(getResponse);
+  });
 };
 
 export const passwordResetCheckEmail = (email: string): Promise => {
-  return fetch(API_URL_USER_PASSWORD_FORGOT, {
+  return request(ENDPOINTS.PASSWORD_FORGOT, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
       email,
     }),
-  }).then(getResponse);
+  });
 };
 
 export const passwordReset = ({
@@ -142,12 +172,12 @@ export const passwordReset = ({
   password: string;
   token: string;
 }): Promise => {
-  return fetch(API_URL_USER_PASSWORD_RESET, {
+  return request(ENDPOINTS.PASSWORD_RESET, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
       password,
       token,
     }),
-  }).then(getResponse);
+  });
 };
