@@ -25,6 +25,12 @@ export const registerAction = createAsyncThunk(
       email,
       password,
     });
+
+    if (response.success) {
+      localStorage.setItem('accessToken', response.accessToken);
+      localStorage.setItem('refreshToken', response.refreshToken);
+    }
+
     return response;
   }
 );

@@ -11,3 +11,5 @@ export const ENDPOINTS = {
   PASSWORD_FORGOT: 'password-reset',
   PASSWORD_RESET: 'password-reset/reset',
 } as const;
+
+export const FORGOT_PASSWORD_STORAGE_KEY = 'forgotPasswordPageVisited';

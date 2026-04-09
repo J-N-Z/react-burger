@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { passwordResetCheckEmailAction } from '@services/ingredients/actions/user-actions';
+import { FORGOT_PASSWORD_STORAGE_KEY } from '@utils/constants';
 
 export const ForgotPasswordPage = (): React.JSX.Element => {
   const [email, setEmail] = useState('');
@@ -22,7 +23,7 @@ export const ForgotPasswordPage = (): React.JSX.Element => {
         passwordResetCheckEmailAction({
           email,
           callback: () => {
-            localStorage.setItem('forgotPasswordPageVisited', 'true');
+            localStorage.setItem(FORGOT_PASSWORD_STORAGE_KEY, 'true');
             navigate('/reset-password');
           },
         })

@@ -3,11 +3,12 @@ import {
   PasswordInput,
   Button,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { passwordResetAction } from '@services/ingredients/actions/user-actions';
+import { FORGOT_PASSWORD_STORAGE_KEY } from '@utils/constants';
 
 export const ResetPasswordPage = (): React.JSX.Element => {
   const [form, setForm] = useState({ password: '', code: '' });
@@ -27,19 +28,21 @@ export const ResetPasswordPage = (): React.JSX.Element => {
         passwordResetAction({
           password: form.password,
           token: form.code,
-          callback: () => navigate('/login'),
+          callback: () => {
+            localStorage.removeItem(FORGOT_PASSWORD_STORAGE_KEY);
+            navigate('/login');
+          },
         })
       );
     }
   };
 
-  const forgotPasswordPageVisited = localStorage.getItem('forgotPasswordPageVisited');
-
-  if (!forgotPasswordPageVisited) {
-    return <Navigate to="/login" replace={true} />;
-  } else {
-    localStorage.removeItem('forgotPasswordPageVisited');
-  }
+  useEffect(() => {
+    const forgotPasswordPageVisited = localStorage.getItem(FORGOT_PASSWORD_STORAGE_KEY);
+    if (!forgotPasswordPageVisited) {
+      navigate('/login');
+    }
+  }, []);
 
   return (
     <div className="form-page-wrapper">
