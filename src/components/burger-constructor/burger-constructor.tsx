@@ -6,6 +6,7 @@ import {
 import { useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { createOrder } from '@services/ingredients/actions';
 import {
@@ -15,6 +16,7 @@ import {
   getFillingIngredientsSelector,
   getTotalPriceSelector,
 } from '@services/ingredients/reducers';
+import { selectUser } from '@services/ingredients/reducers/user-reducer';
 
 import { DraggableConstructorElement } from '../draggabale-constructor-element/draggabale-constructor-element';
 import { Modal } from '../modal/modal';
@@ -25,6 +27,9 @@ import styles from './burger-constructor.module.css';
 export const BurgerConstructor = (): React.JSX.Element => {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const user = useSelector(selectUser);
 
   const bun = useSelector(getBunSelector);
   const fillingIngredients = useSelector(getFillingIngredientsSelector);
@@ -36,6 +41,23 @@ export const BurgerConstructor = (): React.JSX.Element => {
       dispatch(addIngredient(ingredient));
     },
   });
+
+  const handleCreateOrder = () => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
+    if (bun && fillingIngredients.length) {
+      const orderIngredientsIds = [
+        bun._id,
+        ...fillingIngredients.map((ingredient) => ingredient._id),
+        bun._id,
+      ];
+      setShowModal(true);
+      dispatch(createOrder(orderIngredientsIds));
+    }
+  };
 
   return (
     <section className={`${styles.burger_constructor}`}>
@@ -102,17 +124,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
           <CurrencyIcon className={`${styles.price_icon}`} type="primary" />
         </div>
         <Button
-          onClick={() => {
-            if (bun && fillingIngredients.length) {
-              const orderIngredientsIds = [
-                bun._id,
-                ...fillingIngredients.map((ingredient) => ingredient._id),
-                bun._id,
-              ];
-              setShowModal(true);
-              dispatch(createOrder(orderIngredientsIds));
-            }
-          }}
+          onClick={handleCreateOrder}
           size="large"
           type="primary"
           htmlType="button"

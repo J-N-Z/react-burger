@@ -1,0 +1,10 @@
+export { Home } from './home/home';
+export { RegisterPage } from './register-page/register-page';
+export { LoginPage } from './login-page/login-page';
+export { ForgotPasswordPage } from './forgot-password-page/forgot-password-page';
+export { ProfilePage } from './profile-page/profile-page';
+export { ProfileOrderPage } from './profile-order-page/profile-order-page';
+export { FeedPage } from './feed-page/feed-page';
+export { ResetPasswordPage } from './reset-password-page/reset-password-page';
+export { IngredientDetailsPage } from './ingredient-details-page/ingredient-details-page';
+export { NotFoundPage } from './not-found-page/not-found-page';
