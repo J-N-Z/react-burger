@@ -4,13 +4,13 @@ import { loadIngredients } from '../actions';
 
 import type { TIngredient } from '@utils/types';
 
-type TState = {
+type TIngredientsState = {
   ingredients: TIngredient[];
   isLoading: boolean;
   error: string | null;
 };
 
-const initialState: TState = {
+const initialState: TIngredientsState = {
   ingredients: [],
   isLoading: false,
   error: null,

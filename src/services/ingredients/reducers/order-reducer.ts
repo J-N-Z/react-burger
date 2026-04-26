@@ -6,7 +6,13 @@ import { createOrder } from '../actions';
  * Слайс для модального окна с заказами, компонент OrderDetails
  */
 
-const initialState = {
+type TOrderState = {
+  orderNumber: number;
+  isLoading: boolean;
+  error: string | null;
+};
+
+const initialState: TOrderState = {
   orderNumber: 0,
   isLoading: false,
   error: null,

@@ -1,15 +1,18 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
 
+import type { PayloadAction } from '@reduxjs/toolkit';
 import type { TIngredient, TIngredientWithId } from '@utils/types';
 
 /***
  * Слайс для конструктора ингредиентов, Drag'n'Drop из BurgerIngredients в BurgerConstructor
  */
 
-const initialState: {
+type TDraggableIngredientState = {
   bun: TIngredientWithId | null;
   ingredients: TIngredientWithId[];
-} = {
+};
+
+const initialState: TDraggableIngredientState = {
   bun: null,
   ingredients: [],
 };
@@ -19,7 +22,7 @@ export const draggableIngredientSlice = createSlice({
   initialState,
   reducers: {
     addIngredient: {
-      reducer: (state, action) => {
+      reducer: (state, action: PayloadAction<TIngredientWithId>) => {
         const newIngredient = action.payload;
         if (newIngredient.type === 'bun') {
           state.bun = newIngredient;
@@ -31,12 +34,15 @@ export const draggableIngredientSlice = createSlice({
         return { payload: { ...ingredient, id: nanoid() } };
       },
     },
-    deleteIngredient: (state, action) => {
+    deleteIngredient: (state, action: PayloadAction<string>) => {
       state.ingredients = state.ingredients.filter(
         (ingredient) => ingredient.id !== action.payload
       );
     },
-    sortIngredients: (state, action) => {
+    sortIngredients: (
+      state,
+      action: PayloadAction<{ dragIndex: number; hoverIndex: number }>
+    ) => {
       const { dragIndex, hoverIndex } = action.payload;
       const element = state.ingredients.splice(dragIndex, 1)[0];
       state.ingredients.splice(hoverIndex, 0, element);

@@ -1,10 +1,10 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useState, useRef } from 'react';
-import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
 import { getIngredientsSelector } from '@services/ingredients/reducers';
 
+import { useAppSelector } from '../../hooks';
 import IngredientCard from '../ingredient-card/ingredient-card';
 
 import styles from './burger-ingredients.module.css';
@@ -16,7 +16,7 @@ export const BurgerIngredients = (): React.JSX.Element => {
 
   const [activeTab, setActiveTab] = useState<TIngredientType>('bun');
 
-  const ingredients = useSelector(getIngredientsSelector);
+  const ingredients = useAppSelector(getIngredientsSelector);
 
   const ingredientsSectionRef = useRef<HTMLElement>(null);
   const bunIngredientsTitleRef = useRef<HTMLHeadingElement>(null);

@@ -4,9 +4,10 @@ import {
 } from '@krgaa/react-developer-burger-ui-components';
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { useDispatch } from 'react-redux';
 
 import { sortIngredients } from '@services/ingredients/reducers';
+
+import { useAppDispatch } from '../../hooks';
 
 import type { TIngredient } from '@utils/types';
 
@@ -21,7 +22,7 @@ export const DraggableConstructorElement = ({
   ingredient: TIngredient;
   onDelete: () => void;
 }): React.JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const ref = useRef(null);
 

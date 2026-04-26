@@ -7,11 +7,21 @@ import {
   updateUserAction,
 } from '../actions/user-actions';
 
+import type { PayloadAction } from '@reduxjs/toolkit';
+import type { TUser } from '@utils/types';
+
 /***
  * Слайс для авторизации, регистрации, хранения пользователя
  */
 
-const initialState = {
+type TUserState = {
+  user: TUser | null;
+  isLoading: boolean;
+  error: string | null;
+  isAuthChecked: boolean;
+};
+
+const initialState: TUserState = {
   user: null,
   isLoading: false,
   error: null,
@@ -22,10 +32,10 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setIsAuthChecked: (state, action) => {
+    setIsAuthChecked: (state, action: PayloadAction<boolean>) => {
       state.isAuthChecked = action.payload;
     },
-    setUser: (state, action) => {
+    setUser: (state, action: PayloadAction<TUser>) => {
       state.user = action.payload;
     },
   },

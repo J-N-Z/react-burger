@@ -19,3 +19,30 @@ export type TIngredientsResponse = {
   data: TIngredient[];
   success: boolean;
 };
+
+export type TUser = {
+  email: string;
+  password: string;
+  name: string;
+};
+
+export type TResponseBase = {
+  success: boolean;
+};
+
+export type TOrder = {
+  createdAt: string;
+  ingredients: TIngredient[];
+  name: string;
+  number: number;
+  owner: {
+    createdAt: string;
+    email: string;
+    name: string;
+    updatedAt: string;
+  };
+  price: number;
+  status: string;
+  updatedAt: string;
+  _id: string;
+};

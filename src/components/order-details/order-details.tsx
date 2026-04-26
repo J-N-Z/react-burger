@@ -1,17 +1,18 @@
 import donePng from '@/assets/images/done.png';
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 
 import {
   getOrderNumberSelector,
   getOrderNumberIsLoadingSelector,
 } from '@services/ingredients/reducers';
 
+import { useAppSelector } from '../../hooks';
+
 import styles from './order-details.module.css';
 
 export const OrderDetails = (): React.JSX.Element => {
-  const orderNumber = useSelector(getOrderNumberSelector);
-  const isLoading = useSelector(getOrderNumberIsLoadingSelector);
+  const orderNumber = useAppSelector(getOrderNumberSelector);
+  const isLoading = useAppSelector(getOrderNumberIsLoadingSelector);
 
   if (isLoading) {
     return <Preloader />;

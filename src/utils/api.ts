@@ -1,5 +1,7 @@
 import { API_URL_BASE, ENDPOINTS } from './constants';
 
+import type { TIngredient, TUser, TOrder, TResponseBase } from '@utils/types';
+
 const getResponse = (response: Response): Promise => {
   if (response.ok) {
     return response.json();
@@ -55,11 +57,13 @@ const fetchWithRefresh = async (endpoint: string, options: RequestInit) => {
   }
 };
 
-export const getIngredients = (): Promise => {
+export const getIngredients = (): Promise<{ data: TIngredient[] }> => {
   return request(ENDPOINTS.INGREDIENTS);
 };
 
-export const createOrder = (ingredientsIds: string[]): Promise => {
+export const createOrder = (
+  ingredientsIds: string[]
+): Promise<TResponseBase & { name: string; order: TOrder }> => {
   return fetchWithRefresh(ENDPOINTS.ORDERS, {
     method: 'POST',
     headers: {
@@ -84,7 +88,7 @@ export const register = ({
   name: string;
   email: string;
   password: string;
-}): Promise => {
+}): Promise<TResponseBase & { accessToken: string; refreshToken: string }> => {
   return request(ENDPOINTS.REGISTER, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
@@ -102,7 +106,7 @@ export const login = ({
 }: {
   email: string;
   password: string;
-}): Promise => {
+}): Promise<TResponseBase & { accessToken: string; refreshToken: string }> => {
   return request(ENDPOINTS.LOGIN, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
@@ -113,7 +117,7 @@ export const login = ({
   });
 };
 
-export const logout = (): Promise => {
+export const logout = (): Promise<TResponseBase> => {
   return request(ENDPOINTS.LOGOUT, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
@@ -123,7 +127,7 @@ export const logout = (): Promise => {
   });
 };
 
-export const getUser = (): Promise => {
+export const getUser = (): Promise<TResponseBase & { user: TUser }> => {
   return fetchWithRefresh(ENDPOINTS.USER_DATA, {
     method: 'GET',
     headers: {
@@ -140,7 +144,7 @@ export const updateUser = ({
   name: string;
   email: string;
   password: string;
-}): Promise => {
+}): Promise<TResponseBase & { user: TUser }> => {
   return fetchWithRefresh(ENDPOINTS.USER_DATA, {
     method: 'PATCH',
     headers: {
@@ -155,7 +159,7 @@ export const updateUser = ({
   });
 };
 
-export const passwordResetCheckEmail = (email: string): Promise => {
+export const passwordResetCheckEmail = (email: string): Promise<TResponseBase> => {
   return request(ENDPOINTS.PASSWORD_FORGOT, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
@@ -171,7 +175,7 @@ export const passwordReset = ({
 }: {
   password: string;
   token: string;
-}): Promise => {
+}): Promise<TResponseBase> => {
   return request(ENDPOINTS.PASSWORD_RESET, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
