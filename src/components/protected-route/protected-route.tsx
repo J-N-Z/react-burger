@@ -1,4 +1,3 @@
-import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 
 import {
@@ -6,9 +5,11 @@ import {
   selectUser,
 } from '@services/ingredients/reducers/user-reducer';
 
+import { useAppSelector } from '../../hooks';
+
 export const ProtectedRoute = ({ onlyUnAuth = false, component }) => {
-  const isAuthChecked = useSelector(selectIsAuthChecked);
-  const user = useSelector(selectUser);
+  const isAuthChecked = useAppSelector(selectIsAuthChecked);
+  const user = useAppSelector(selectUser);
   const location = useLocation();
 
   if (!isAuthChecked) {

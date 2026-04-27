@@ -5,14 +5,15 @@ import {
   Button,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { registerAction } from '@services/ingredients/actions/user-actions';
 
+import { useAppDispatch } from '../../hooks';
+
 export const RegisterPage = (): React.JSX.Element => {
   const [form, setForm] = useState({ name: '', email: '', password: '' });
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;

@@ -5,7 +5,6 @@ import {
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
 import { useDrop } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { createOrder } from '@services/ingredients/actions';
@@ -18,6 +17,7 @@ import {
 } from '@services/ingredients/reducers';
 import { selectUser } from '@services/ingredients/reducers/user-reducer';
 
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { DraggableConstructorElement } from '../draggabale-constructor-element/draggabale-constructor-element';
 import { Modal } from '../modal/modal';
 import { OrderDetails } from '../order-details/order-details';
@@ -26,14 +26,14 @@ import styles from './burger-constructor.module.css';
 
 export const BurgerConstructor = (): React.JSX.Element => {
   const [showModal, setShowModal] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const user = useSelector(selectUser);
+  const user = useAppSelector(selectUser);
 
-  const bun = useSelector(getBunSelector);
-  const fillingIngredients = useSelector(getFillingIngredientsSelector);
-  const totalPrice = useSelector(getTotalPriceSelector);
+  const bun = useAppSelector(getBunSelector);
+  const fillingIngredients = useAppSelector(getFillingIngredientsSelector);
+  const totalPrice = useAppSelector(getTotalPriceSelector);
 
   const [, dropTarget] = useDrop({
     accept: 'ingredient',

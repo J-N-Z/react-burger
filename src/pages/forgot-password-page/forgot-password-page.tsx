@@ -1,14 +1,15 @@
 import { EmailInput, Button } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { passwordResetCheckEmailAction } from '@services/ingredients/actions/user-actions';
 import { FORGOT_PASSWORD_STORAGE_KEY } from '@utils/constants';
 
+import { useAppDispatch } from '../../hooks';
+
 export const ForgotPasswordPage = (): React.JSX.Element => {
   const [email, setEmail] = useState('');
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {

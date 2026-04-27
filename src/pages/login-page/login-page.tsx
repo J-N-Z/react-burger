@@ -4,14 +4,15 @@ import {
   Button,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { loginAction } from '@services/ingredients/actions/user-actions';
 
+import { useAppDispatch } from '../../hooks';
+
 export const LoginPage = (): React.JSX.Element => {
   const [form, setForm] = useState({ email: '', password: '' });
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;

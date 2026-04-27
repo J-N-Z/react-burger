@@ -5,7 +5,6 @@ import {
   Button,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 
 import {
@@ -14,14 +13,24 @@ import {
 } from '@services/ingredients/actions/user-actions';
 import { selectUser } from '@services/ingredients/reducers/user-reducer';
 
+import { useAppDispatch, useAppSelector } from '../../hooks';
+
 import styles from './profile-page.module.css';
 
+const defaultForm = {
+  name: '',
+  email: '',
+  password: '',
+};
+
 export const ProfilePage = (): React.JSX.Element => {
-  const user = useSelector(selectUser);
+  const user = useAppSelector(selectUser);
 
-  const [form, setForm] = useState({ name: user.name, email: user.email, password: '' });
+  const [form, setForm] = useState(
+    user ? { name: user.name, email: user.email, password: '' } : defaultForm
+  );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -30,7 +39,9 @@ export const ProfilePage = (): React.JSX.Element => {
   };
 
   const handleCancel = (): void => {
-    setForm({ name: user.name, email: user.email, password: '' });
+    if (user) {
+      setForm({ name: user.name, email: user.email, password: '' });
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -46,7 +57,7 @@ export const ProfilePage = (): React.JSX.Element => {
   };
 
   const isFieldsChanged =
-    form.name !== user.name || form.email !== user.email || form.password !== '';
+    form.name !== user?.name || form.email !== user?.email || form.password !== '';
 
   return (
     <div className={styles.container}>

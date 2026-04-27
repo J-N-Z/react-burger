@@ -1,6 +1,5 @@
 import { Preloader } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
 import { AppHeader } from '@components/app-header/app-header';
@@ -22,15 +21,17 @@ import { loadIngredients } from '@services/ingredients/actions';
 import { checkUserAuth } from '@services/ingredients/actions/check-user-auth';
 import { getIngredientsIsLoadingSelector } from '@services/ingredients/reducers';
 
+import { useAppDispatch, useAppSelector } from '../../hooks';
+
 import styles from './app.module.css';
 
 export const App = (): React.JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const location = useLocation();
   const backgroundLocation = location.state?.backgroundLocation;
 
-  const isLoading = useSelector(getIngredientsIsLoadingSelector);
+  const isLoading = useAppSelector(getIngredientsIsLoadingSelector);
 
   useEffect(() => {
     dispatch(checkUserAuth());
