@@ -9,7 +9,7 @@ import styles from './modal.module.css';
 const modalRoot = document.getElementById('modal')!;
 
 type TModalProps = {
-  title?: string;
+  title?: string | React.JSX.Element;
   children: React.ReactNode;
   onClose: () => void;
 };
@@ -29,12 +29,24 @@ export const Modal = ({ title, children, onClose }: TModalProps): React.ReactPor
     };
   }, []);
 
+  const getTitle = () => {
+    if (title) {
+      if (typeof title === 'string') {
+        return <h3 className="text text_type_main-large">{title}</h3>;
+      } else {
+        return title;
+      }
+    }
+
+    return null;
+  };
+
   return createPortal(
     <section>
       <ModalOverlay onClick={onClose} />
       <div className={styles.modal}>
         <header className={styles.header}>
-          {title && <h3 className="text text_type_main-large">{title}</h3>}
+          {getTitle()}
           <CloseIcon className={styles.close} type="primary" onClick={onClose} />
         </header>
         {children}

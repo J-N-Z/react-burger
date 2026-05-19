@@ -5,7 +5,7 @@ import {
   Button,
 } from '@krgaa/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { Outlet, Link, useNavigate, useMatch } from 'react-router-dom';
 
 import {
   logoutAction,
@@ -59,6 +59,18 @@ export const ProfilePage = (): React.JSX.Element => {
   const isFieldsChanged =
     form.name !== user?.name || form.email !== user?.email || form.password !== '';
 
+  const isProfileOrdersPage = useMatch('/profile/orders');
+
+  const infoText = isProfileOrdersPage ? (
+    <>
+      В этом разделе вы можете <br /> просмотреть свою историю заказов
+    </>
+  ) : (
+    <>
+      В этом разделе вы можете <br /> изменить свои персональные данные
+    </>
+  );
+
   return (
     <div className={styles.container}>
       <div className={styles.main}>
@@ -66,7 +78,7 @@ export const ProfilePage = (): React.JSX.Element => {
           <div className="mb-8">
             <Link
               to="/profile"
-              className={`text text_type_main-medium ${styles.link} ${styles.link_active}`}
+              className={`text text_type_main-medium ${styles.link} ${isProfileOrdersPage ? '' : styles.link_active}`}
             >
               Профиль
             </Link>
@@ -74,7 +86,7 @@ export const ProfilePage = (): React.JSX.Element => {
           <div className="mb-8">
             <Link
               to="/profile/orders"
-              className={`text text_type_main-medium text_color_inactive ${styles.link}`}
+              className={`text text_type_main-medium text_color_inactive ${styles.link} ${isProfileOrdersPage ? styles.link_active : ''}`}
             >
               История заказов
             </Link>
@@ -87,50 +99,57 @@ export const ProfilePage = (): React.JSX.Element => {
               Выход
             </div>
           </div>
+          <p className="text text_type_main-default text_color_inactive mt-20">
+            {infoText}
+          </p>
         </div>
-        <form action="" className="form-page-form" onSubmit={handleSubmit}>
-          <Input
-            name="name"
-            placeholder="Имя"
-            type="text"
-            value={form.name}
-            onChange={handleChange}
-          />
-          <EmailInput
-            name="email"
-            placeholder="E-mail"
-            value={form.email}
-            onChange={handleChange}
-          />
-          <PasswordInput
-            icon="ShowIcon"
-            name="password"
-            placeholder="Пароль"
-            value={form.password}
-            onChange={handleChange}
-          />
-          {isFieldsChanged && (
-            <div style={{ display: 'flex', gap: '16px' }}>
-              <Button size="medium" type="primary" htmlType="submit">
-                Сохранить
-              </Button>
-              <Button
-                size="medium"
-                type="primary"
-                htmlType="button"
-                onClick={handleCancel}
-              >
-                Отмена
-              </Button>
-            </div>
-          )}
-        </form>
-      </div>
-      <p className="text text_type_main-default text_color_inactive mt-8">
-        В этом разделе вы можете <br /> изменить свои персональные данные
-      </p>
 
-      <Outlet />
+        <div className={styles.content}>
+          {isProfileOrdersPage ? (
+            <Outlet />
+          ) : (
+            <>
+              <form action="" className="form-page-form" onSubmit={handleSubmit}>
+                <Input
+                  name="name"
+                  placeholder="Имя"
+                  type="text"
+                  value={form.name}
+                  onChange={handleChange}
+                />
+                <EmailInput
+                  name="email"
+                  placeholder="E-mail"
+                  value={form.email}
+                  onChange={handleChange}
+                />
+                <PasswordInput
+                  icon="ShowIcon"
+                  name="password"
+                  placeholder="Пароль"
+                  value={form.password}
+                  onChange={handleChange}
+                />
+                {isFieldsChanged && (
+                  <div className={styles.buttons}>
+                    <Button size="medium" type="primary" htmlType="submit">
+                      Сохранить
+                    </Button>
+                    <Button
+                      size="medium"
+                      type="primary"
+                      htmlType="button"
+                      onClick={handleCancel}
+                    >
+                      Отмена
+                    </Button>
+                  </div>
+                )}
+              </form>
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

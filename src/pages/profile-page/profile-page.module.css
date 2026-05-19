@@ -20,3 +20,12 @@
 .link_active {
   color: inherit;
 }
+
+.buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.content {
+  width: 844px;
+}

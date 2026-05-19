@@ -1,0 +1,17 @@
+.container {
+  padding: 24px;
+  background: #1c1c21;
+  border-radius: 40px;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.price_container {
+  display: flex;
+  gap: 8px;
+}

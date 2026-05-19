@@ -1,0 +1,44 @@
+.title {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto 20px;
+  padding-top: 40px;
+}
+
+.container {
+  display: flex;
+  gap: 60px;
+  width: 100%;
+  max-width: 1240px;
+  height: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.column {
+  flex-grow: 1;
+}
+
+.orders {
+  display: flex;
+  gap: 36px;
+}
+
+.status_columns_container {
+  width: 272px;
+}
+
+.status_columns {
+  display: flex;
+  gap: 40px;
+}
+
+.color_done {
+  color: #0cc;
+}
+
+.link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}

@@ -3,8 +3,11 @@ import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
 import { AppHeader } from '@components/app-header/app-header';
+import { FeedDetailsModal } from '@components/feed-details-modal/feed-details-modal';
 import { IngredientDetailsModal } from '@components/ingredient-details-modal/ingredient-details-modal';
+import { OrderDetailsModal } from '@components/order-details-modal/order-details-modal';
 import { ProtectedRoute } from '@components/protected-route/protected-route';
+import { FeedDetailPage } from '@pages/feed-detail-page/feed-detail-page';
 import {
   Home,
   LoginPage,
@@ -17,9 +20,12 @@ import {
   IngredientDetailsPage,
   NotFoundPage,
 } from '@pages/index';
+import { ProfileOrderDetailPage } from '@pages/profile-order-detail-page/profile-order-detail-page';
 import { loadIngredients } from '@services/ingredients/actions';
 import { checkUserAuth } from '@services/ingredients/actions/check-user-auth';
 import { getIngredientsIsLoadingSelector } from '@services/ingredients/reducers';
+import { disconnect as disconnectSocketOrdersAll } from '@services/ingredients/reducers/socket-orders-all-reducer';
+import { disconnect as disconnectSocketOrdersUser } from '@services/ingredients/reducers/socket-orders-user-reducer';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
@@ -36,6 +42,11 @@ export const App = (): React.JSX.Element => {
   useEffect(() => {
     dispatch(checkUserAuth());
     dispatch(loadIngredients());
+
+    return () => {
+      dispatch(disconnectSocketOrdersAll());
+      dispatch(disconnectSocketOrdersUser());
+    };
   }, []);
 
   if (isLoading) {
@@ -71,12 +82,16 @@ export const App = (): React.JSX.Element => {
         <Route path="/profile" element={<ProtectedRoute component={<ProfilePage />} />}>
           <Route path="orders" element={<ProfileOrderPage />} />
         </Route>
+        <Route path="/profile/orders/:id" element={<ProfileOrderDetailPage />} />
         <Route path="/feed" element={<FeedPage />} />
+        <Route path="/feed/:id" element={<FeedDetailPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       {backgroundLocation && (
         <Routes>
-          <Route path="ingredients/:id" element={<IngredientDetailsModal />} />
+          <Route path="/ingredients/:id" element={<IngredientDetailsModal />} />
+          <Route path="/profile/orders/:id" element={<OrderDetailsModal />} />
+          <Route path="/feed/:id" element={<FeedDetailsModal />} />
         </Routes>
       )}
     </div>

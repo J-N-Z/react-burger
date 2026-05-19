@@ -46,3 +46,22 @@ export type TOrder = {
   updatedAt: string;
   _id: string;
 };
+
+export type StatusKeys = 'created' | 'pending' | 'done';
+
+export type TOrderBase = {
+  createdAt: string;
+  ingredients: string[];
+  name: string;
+  number: number;
+  status: StatusKeys;
+  updatedAt: string;
+  _id: string;
+};
+
+export type TSocketMessage = {
+  orders: TOrderBase[];
+  success: boolean;
+  total: number;
+  totalToday: number;
+};
