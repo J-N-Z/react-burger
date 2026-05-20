@@ -7,7 +7,7 @@ import type { TIngredient, StatusKeys } from '@utils/types';
 
 import styles from './feed-details.module.css';
 
-const Price = ({ value }: { value: number }) => (
+const Price = ({ value }: { value: number | string }) => (
   <div className={styles.price}>
     <p className="text text_type_digits-default">{value}</p>
     <CurrencyIcon type="primary" />
@@ -21,7 +21,7 @@ const FeedDetailsItem = ({
 }: {
   imageUrl: string;
   name: string;
-  price: number;
+  price: number | string;
 }) => (
   <div className={styles.item}>
     <PreviewImage url={imageUrl} />
@@ -49,6 +49,27 @@ export const FeedDetails = ({
   const totalPrice = ingredients.reduce((acc, ingredient) => acc + ingredient.price, 0);
   const statusColor = status === 'done' ? '#00CCCC' : 'inherit';
 
+  // ingredients без дублей, для вывода
+  const ingredientsUnique: TIngredient[] = [];
+
+  ingredients.forEach((ingredient) => {
+    if (!ingredientsUnique.find((item) => item._id === ingredient._id)) {
+      ingredientsUnique.push(ingredient);
+    }
+  });
+
+  // ingredients с полем count для хранения количества
+  const ingredientsCount: { _id: string; count: number }[] = [];
+
+  ingredients.forEach((ingredient) => {
+    const targetItem = ingredientsCount.find((item) => item._id === ingredient._id);
+    if (!targetItem) {
+      ingredientsCount.push({ _id: ingredient._id, count: 1 });
+    } else {
+      targetItem.count += 1;
+    }
+  });
+
   return (
     <div>
       {number && (
@@ -67,15 +88,21 @@ export const FeedDetails = ({
       <section className="mb-10">
         <h2 className="text text_type_main-medium mb-6">Состав:</h2>
         <div className={styles.items_container}>
-          {ingredients.map((ingredient) => (
-            <div key={ingredient._id} className="mb-4">
-              <FeedDetailsItem
-                imageUrl={ingredient.image}
-                name={ingredient.name}
-                price={ingredient.price}
-              />
-            </div>
-          ))}
+          {ingredientsUnique.map((ingredient) => {
+            const count =
+              ingredientsCount.find((item) => item._id === ingredient._id)?.count ?? 1;
+            const price =
+              count > 1 ? `${count} x ${ingredient.price}` : ingredient.price;
+            return (
+              <div key={ingredient._id} className="mb-4">
+                <FeedDetailsItem
+                  imageUrl={ingredient.image}
+                  name={ingredient.name}
+                  price={price}
+                />
+              </div>
+            );
+          })}
         </div>
       </section>
       <div className={styles.footer}>

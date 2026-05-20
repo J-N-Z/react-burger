@@ -7,6 +7,7 @@ import { getIngredientsSelector } from '@services/ingredients/reducers/get-ingre
 import {
   selectOrders,
   connect,
+  disconnect,
 } from '@services/ingredients/reducers/socket-orders-all-reducer';
 
 import type { TIngredient } from '@utils/types';
@@ -33,6 +34,10 @@ export const FeedDetailPage = (): React.JSX.Element | null => {
 
   useEffect(() => {
     dispatch(connect());
+
+    return () => {
+      dispatch(disconnect());
+    };
   }, []);
 
   if (!order) return null;

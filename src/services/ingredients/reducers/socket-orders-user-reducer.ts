@@ -38,10 +38,10 @@ export const socketOrdersUserSlice = createSlice({
       state.isConnected = true;
       state.error = null;
     },
-    onMessage: (state, action: PayloadAction) => {
+    onMessage: (state, action: PayloadAction<TSocketMessage>) => {
       state.messages.push(action.payload);
     },
-    onError: (state, action: PayloadAction) => {
+    onError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
       state.isLoading = false;
     },

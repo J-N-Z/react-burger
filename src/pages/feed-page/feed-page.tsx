@@ -9,6 +9,7 @@ import {
   selectTotal,
   selectTotalToday,
   connect,
+  disconnect,
 } from '@services/ingredients/reducers/socket-orders-all-reducer';
 
 import styles from './feed-page.module.css';
@@ -24,6 +25,10 @@ export const FeedPage = (): React.JSX.Element => {
 
   useEffect(() => {
     dispatch(connect());
+
+    return () => {
+      dispatch(disconnect());
+    };
   }, []);
 
   const ordersDone =

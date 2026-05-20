@@ -16,7 +16,7 @@ export const OrderDetailsModal = () => {
   const orders = useAppSelector(selectOrders);
   const ingredients = useAppSelector(getIngredientsSelector);
 
-  const order = orders.find((item) => item._id === id);
+  const order = orders?.find((item) => item._id === id);
 
   const orderIngredients: TIngredient[] = [];
 

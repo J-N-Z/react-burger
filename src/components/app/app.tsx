@@ -24,8 +24,6 @@ import { ProfileOrderDetailPage } from '@pages/profile-order-detail-page/profile
 import { loadIngredients } from '@services/ingredients/actions';
 import { checkUserAuth } from '@services/ingredients/actions/check-user-auth';
 import { getIngredientsIsLoadingSelector } from '@services/ingredients/reducers';
-import { disconnect as disconnectSocketOrdersAll } from '@services/ingredients/reducers/socket-orders-all-reducer';
-import { disconnect as disconnectSocketOrdersUser } from '@services/ingredients/reducers/socket-orders-user-reducer';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
@@ -42,11 +40,6 @@ export const App = (): React.JSX.Element => {
   useEffect(() => {
     dispatch(checkUserAuth());
     dispatch(loadIngredients());
-
-    return () => {
-      dispatch(disconnectSocketOrdersAll());
-      dispatch(disconnectSocketOrdersUser());
-    };
   }, []);
 
   if (isLoading) {

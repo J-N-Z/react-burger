@@ -7,6 +7,7 @@ import { getIngredientsSelector } from '@services/ingredients/reducers/get-ingre
 import {
   selectOrders,
   connect,
+  disconnect,
 } from '@services/ingredients/reducers/socket-orders-user-reducer';
 
 import type { TIngredient } from '@utils/types';
@@ -34,6 +35,10 @@ export const ProfileOrderDetailPage = (): React.JSX.Element | null => {
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken')?.replace('Bearer ', '');
     dispatch(connect(accessToken));
+
+    return () => {
+      dispatch(disconnect());
+    };
   }, []);
 
   if (!order) return null;

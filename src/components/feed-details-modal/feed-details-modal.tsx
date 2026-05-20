@@ -1,10 +1,10 @@
+import { useAppSelector } from '@/hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { FeedDetails } from '@components/feed-details/feed-details';
 import { getIngredientsSelector } from '@services/ingredients/reducers/get-ingredients-reducer';
 import { selectOrders } from '@services/ingredients/reducers/socket-orders-all-reducer';
 
-import { useAppSelector } from '../../hooks';
 import { Modal } from '../modal/modal';
 
 import type { TIngredient } from '@utils/types';
@@ -16,7 +16,7 @@ export const FeedDetailsModal = () => {
   const orders = useAppSelector(selectOrders);
   const ingredients = useAppSelector(getIngredientsSelector);
 
-  const order = orders.find((item) => item._id === id);
+  const order = orders?.find((item) => item._id === id);
 
   const orderIngredients: TIngredient[] = [];
 

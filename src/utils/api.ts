@@ -20,7 +20,9 @@ const request = (endpoint: string, options?: RequestInit) => {
   return fetch(url, options).then(getResponse);
 };
 
-export const refreshToken = async (): Promise => {
+export const refreshToken = async (): Promise<
+  TResponseBase & { accessToken: string; refreshToken: string }
+> => {
   const refreshData = await request(ENDPOINTS.REFRESH_TOKEN, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
