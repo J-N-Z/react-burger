@@ -2,7 +2,7 @@ import { API_URL_BASE, ENDPOINTS } from './constants';
 
 import type { TIngredient, TUser, TOrder, TResponseBase } from '@utils/types';
 
-const getResponse = (response: Response): Promise => {
+const getResponse = (response: Response) => {
   if (response.ok) {
     return response.json();
   }
