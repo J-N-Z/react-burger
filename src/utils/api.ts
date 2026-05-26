@@ -2,7 +2,7 @@ import { API_URL_BASE, ENDPOINTS } from './constants';
 
 import type { TIngredient, TUser, TOrder, TResponseBase } from '@utils/types';
 
-const getResponse = (response: Response): Promise => {
+const getResponse = (response: Response) => {
   if (response.ok) {
     return response.json();
   }
@@ -20,7 +20,9 @@ const request = (endpoint: string, options?: RequestInit) => {
   return fetch(url, options).then(getResponse);
 };
 
-export const refreshToken = async (): Promise => {
+export const refreshToken = async (): Promise<
+  TResponseBase & { accessToken: string; refreshToken: string }
+> => {
   const refreshData = await request(ENDPOINTS.REFRESH_TOKEN, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },

@@ -1,0 +1,10 @@
+.container {
+  height: calc(100vh - 248px);
+  overflow-y: auto;
+}
+
+.link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}

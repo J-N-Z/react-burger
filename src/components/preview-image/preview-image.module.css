@@ -1,0 +1,9 @@
+.image_container {
+  box-sizing: border-box;
+  width: 64px;
+  height: 64px;
+  background-position: center;
+  background-size: 90px;
+  border: 2px solid rgb(128 26 178 / 100%);
+  border-radius: 50px;
+}
