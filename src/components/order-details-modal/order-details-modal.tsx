@@ -1,8 +1,8 @@
+import { getIngredientsSelector } from '@/services/ingredients/reducers/get-ingredients-reducer/get-ingredients-reducer';
+import { selectOrders } from '@/services/ingredients/reducers/socket-orders-user-reducer/socket-orders-user-reducer';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { FeedDetails } from '@components/feed-details/feed-details';
-import { getIngredientsSelector } from '@services/ingredients/reducers/get-ingredients-reducer';
-import { selectOrders } from '@services/ingredients/reducers/socket-orders-user-reducer';
 
 import { useAppSelector } from '../../hooks';
 import { Modal } from '../modal/modal';

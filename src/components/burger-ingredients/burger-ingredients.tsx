@@ -116,7 +116,10 @@ export const BurgerIngredients = (): React.JSX.Element => {
           Булки
         </h2>
 
-        <div className={`${styles.ingredients_container} pl-4 pr-4`}>
+        <div
+          className={`${styles.ingredients_container} pl-4 pr-4`}
+          data-testid="ingredients-buns"
+        >
           {bunIngredients.map((ingredient) => (
             <Link
               key={ingredient._id}
@@ -136,7 +139,10 @@ export const BurgerIngredients = (): React.JSX.Element => {
           Начинки
         </h2>
 
-        <div className={`${styles.ingredients_container} pl-4 pr-4`}>
+        <div
+          className={`${styles.ingredients_container} pl-4 pr-4`}
+          data-testid="ingredients-fillings"
+        >
           {mainIngredients.map((ingredient) => (
             <Link
               key={ingredient._id}

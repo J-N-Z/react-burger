@@ -1,14 +1,14 @@
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-
-import { OrderItem } from '@components/order-item/order-item';
-import { getIngredientsSelector } from '@services/ingredients/reducers/get-ingredients-reducer';
+import { getIngredientsSelector } from '@/services/ingredients/reducers/get-ingredients-reducer/get-ingredients-reducer';
 import {
   selectOrders,
   connect,
   disconnect,
-} from '@services/ingredients/reducers/socket-orders-user-reducer';
+} from '@/services/ingredients/reducers/socket-orders-user-reducer/socket-orders-user-reducer';
+import { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+
+import { OrderItem } from '@components/order-item/order-item';
 
 import styles from './profile-order-page.module.css';
 

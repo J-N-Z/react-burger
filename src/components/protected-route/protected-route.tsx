@@ -1,9 +1,8 @@
-import { Navigate, useLocation } from 'react-router-dom';
-
 import {
   selectIsAuthChecked,
   selectUser,
-} from '@services/ingredients/reducers/user-reducer';
+} from '@/services/ingredients/reducers/user-reducer/user-reducer';
+import { Navigate, useLocation } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks';
 

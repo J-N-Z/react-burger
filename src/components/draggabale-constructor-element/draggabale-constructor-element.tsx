@@ -59,7 +59,11 @@ export const DraggableConstructorElement = ({
   drag(drop(ref));
 
   return (
-    <div className={`${styles.element_wrapper} mb-4`} ref={ref}>
+    <div
+      className={`${styles.element_wrapper} mb-4`}
+      ref={ref}
+      data-testid="draggable-constructor-element"
+    >
       <DragIcon type="primary" />
       <ConstructorElement
         text={ingredient.name}

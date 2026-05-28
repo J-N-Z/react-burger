@@ -81,3 +81,5 @@ export const {
 
 export const { addIngredient, deleteIngredient, sortIngredients } =
   draggableIngredientSlice.actions;
+
+export default draggableIngredientSlice.reducer;

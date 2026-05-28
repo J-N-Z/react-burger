@@ -4,7 +4,8 @@ import {
   onMessage,
   onError,
   onClose,
-} from '@services/ingredients/reducers/socket-orders-all-reducer';
+} from '@/services/ingredients/reducers/socket-orders-all-reducer/socket-orders-all-reducer';
+
 import { SOCKET_ORDERS_ALL_URL } from '@utils/constants';
 
 import { socketMiddlewareBuilder } from './socket-middleware-builder';

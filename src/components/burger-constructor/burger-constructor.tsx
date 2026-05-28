@@ -15,7 +15,7 @@ import {
   getFillingIngredientsSelector,
   getTotalPriceSelector,
 } from '@services/ingredients/reducers';
-import { selectUser } from '@services/ingredients/reducers/user-reducer';
+import { selectUser } from '@services/ingredients/reducers/user-reducer/user-reducer';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { DraggableConstructorElement } from '../draggabale-constructor-element/draggabale-constructor-element';
@@ -61,9 +61,12 @@ export const BurgerConstructor = (): React.JSX.Element => {
 
   return (
     <section className={`${styles.burger_constructor}`}>
-      <div className="pl-4 pr-4" ref={dropTarget}>
+      <div className="pl-4 pr-4" ref={dropTarget} data-testid="drop-target">
         {bun ? (
-          <div className={`${styles.element_wrapper} mb-4 pl-7`}>
+          <div
+            className={`${styles.element_wrapper} mb-4 pl-7`}
+            data-testid="bun-top-constructor-element"
+          >
             <ConstructorElement
               text={`${bun.name} (верх)`}
               price={bun.price}
@@ -80,7 +83,10 @@ export const BurgerConstructor = (): React.JSX.Element => {
           </div>
         )}
 
-        <div className={`${styles.scroll_container} custom-scroll pr-1`}>
+        <div
+          className={`${styles.scroll_container} custom-scroll pr-1`}
+          data-testid="filling-ingredients-container"
+        >
           {fillingIngredients.length ? (
             <>
               {fillingIngredients.map((ingredient, index) => (
@@ -100,7 +106,10 @@ export const BurgerConstructor = (): React.JSX.Element => {
         </div>
 
         {bun ? (
-          <div className={`${styles.element_wrapper} mb-4 pl-7`}>
+          <div
+            className={`${styles.element_wrapper} mb-4 pl-7`}
+            data-testid="bun-bottom-constructor-element"
+          >
             <ConstructorElement
               text={`${bun.name} (низ)`}
               price={bun.price}
@@ -128,6 +137,7 @@ export const BurgerConstructor = (): React.JSX.Element => {
           size="large"
           type="primary"
           htmlType="button"
+          data-testid="create-order-button"
         >
           Оформить заказ
         </Button>

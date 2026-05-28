@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { loadIngredients } from '../actions';
+import { loadIngredients } from '../../actions';
 
 import type { TIngredient } from '@utils/types';
 
