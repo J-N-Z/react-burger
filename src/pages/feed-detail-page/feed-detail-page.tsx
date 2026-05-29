@@ -1,14 +1,14 @@
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-
-import { FeedDetails } from '@components/feed-details/feed-details';
-import { getIngredientsSelector } from '@services/ingredients/reducers/get-ingredients-reducer';
+import { getIngredientsSelector } from '@/services/ingredients/reducers/get-ingredients-reducer/get-ingredients-reducer';
 import {
   selectOrders,
   connect,
   disconnect,
-} from '@services/ingredients/reducers/socket-orders-all-reducer';
+} from '@/services/ingredients/reducers/socket-orders-all-reducer/socket-orders-all-reducer';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+
+import { FeedDetails } from '@components/feed-details/feed-details';
 
 import type { TIngredient } from '@utils/types';
 

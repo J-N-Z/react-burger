@@ -32,7 +32,11 @@ export const Modal = ({ title, children, onClose }: TModalProps): React.ReactPor
   const getTitle = () => {
     if (title) {
       if (typeof title === 'string') {
-        return <h3 className="text text_type_main-large">{title}</h3>;
+        return (
+          <h3 className="text text_type_main-large" data-testid="modal-title">
+            {title}
+          </h3>
+        );
       } else {
         return title;
       }
@@ -42,12 +46,14 @@ export const Modal = ({ title, children, onClose }: TModalProps): React.ReactPor
   };
 
   return createPortal(
-    <section>
+    <section data-testid="modal">
       <ModalOverlay onClick={onClose} />
       <div className={styles.modal}>
         <header className={styles.header}>
           {getTitle()}
-          <CloseIcon className={styles.close} type="primary" onClick={onClose} />
+          <div className={styles.close} data-testid="modal-close">
+            <CloseIcon type="primary" onClick={onClose} />
+          </div>
         </header>
         {children}
       </div>

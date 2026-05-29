@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { createOrder } from '../actions';
+import { createOrder } from '../../actions';
 
 /***
  * Слайс для модального окна с заказами, компонент OrderDetails
@@ -12,7 +12,7 @@ type TOrderState = {
   error: string | null;
 };
 
-const initialState: TOrderState = {
+export const initialState: TOrderState = {
   orderNumber: 0,
   isLoading: false,
   error: null,
@@ -47,3 +47,5 @@ export const orderSlice = createSlice({
 
 export const { getOrderNumberSelector, getOrderNumberIsLoadingSelector } =
   orderSlice.selectors;
+
+export default orderSlice.reducer;

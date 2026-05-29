@@ -1,7 +1,6 @@
+import { socketOrdersAllSlice } from '@/services/ingredients/reducers/socket-orders-all-reducer/socket-orders-all-reducer';
+import { socketOrdersUserSlice } from '@/services/ingredients/reducers/socket-orders-user-reducer/socket-orders-user-reducer';
 import { combineSlices, configureStore } from '@reduxjs/toolkit';
-
-import { socketOrdersAllSlice } from '@services/ingredients/reducers/socket-orders-all-reducer';
-import { socketOrdersUserSlice } from '@services/ingredients/reducers/socket-orders-user-reducer';
 
 import { socketOrdersAllMiddleware } from './middleware/socket-orders-all-middleware';
 import { socketOrdersUserMiddleware } from './middleware/socket-orders-user-middleware';

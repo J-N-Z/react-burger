@@ -12,7 +12,7 @@ type TDraggableIngredientState = {
   ingredients: TIngredientWithId[];
 };
 
-const initialState: TDraggableIngredientState = {
+export const initialState: TDraggableIngredientState = {
   bun: null,
   ingredients: [],
 };
@@ -81,3 +81,5 @@ export const {
 
 export const { addIngredient, deleteIngredient, sortIngredients } =
   draggableIngredientSlice.actions;
+
+export default draggableIngredientSlice.reducer;

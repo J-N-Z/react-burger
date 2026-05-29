@@ -1,3 +1,5 @@
+Проект доступен по адресу - https://j-n-z.github.io/react-burger
+
 # Стартер на TypeScript для проекта Stellar Burger
 
 ## Процедура создания коммита с проверками

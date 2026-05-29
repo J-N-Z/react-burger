@@ -1,16 +1,15 @@
 import { OrderItem } from '@/components/order-item/order-item';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-
-import { getIngredientsSelector } from '@services/ingredients/reducers/get-ingredients-reducer';
+import { getIngredientsSelector } from '@/services/ingredients/reducers/get-ingredients-reducer/get-ingredients-reducer';
 import {
   selectOrders,
   selectTotal,
   selectTotalToday,
   connect,
   disconnect,
-} from '@services/ingredients/reducers/socket-orders-all-reducer';
+} from '@/services/ingredients/reducers/socket-orders-all-reducer/socket-orders-all-reducer';
+import { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 import styles from './feed-page.module.css';
 

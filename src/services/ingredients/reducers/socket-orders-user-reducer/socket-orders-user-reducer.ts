@@ -9,16 +9,16 @@ type SocketState = {
   isLoading: boolean;
 };
 
-const initialState: SocketState = {
+export const initialState: SocketState = {
   isConnected: false,
   messages: [],
   error: null,
   isLoading: false,
 };
 
-export const SLICE_NAME = 'socketOrdersAll';
+export const SLICE_NAME = 'socketOrdersUser';
 
-export const socketOrdersAllSlice = createSlice({
+export const socketOrdersUserSlice = createSlice({
   name: SLICE_NAME,
   initialState,
   reducers: {
@@ -53,13 +53,12 @@ export const socketOrdersAllSlice = createSlice({
   selectors: {
     selectMessages: (state) => state.messages,
     selectOrders: (state) => state.messages[state.messages.length - 1]?.orders,
-    selectTotal: (state) => state.messages[state.messages.length - 1]?.total,
-    selectTotalToday: (state) => state.messages[state.messages.length - 1]?.totalToday,
   },
 });
 
 export const { connect, disconnect, onOpen, onMessage, onError, onClose } =
-  socketOrdersAllSlice.actions;
+  socketOrdersUserSlice.actions;
 
-export const { selectMessages, selectOrders, selectTotal, selectTotalToday } =
-  socketOrdersAllSlice.selectors;
+export const { selectOrders } = socketOrdersUserSlice.selectors;
+
+export default socketOrdersUserSlice.reducer;

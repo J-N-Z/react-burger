@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getUser } from '@utils/api';
 import { isTokenExists } from '@utils/tokens';
 
-import { setUser, setIsAuthChecked } from '../reducers/user-reducer';
+import { setUser, setIsAuthChecked } from '../reducers/user-reducer/user-reducer';
 
 export const checkUserAuth = createAsyncThunk(
   'user/checkUserAuth',

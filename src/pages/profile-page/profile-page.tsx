@@ -1,3 +1,4 @@
+import { selectUser } from '@/services/ingredients/reducers/user-reducer/user-reducer';
 import {
   EmailInput,
   PasswordInput,
@@ -11,7 +12,6 @@ import {
   logoutAction,
   updateUserAction,
 } from '@services/ingredients/actions/user-actions';
-import { selectUser } from '@services/ingredients/reducers/user-reducer';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 

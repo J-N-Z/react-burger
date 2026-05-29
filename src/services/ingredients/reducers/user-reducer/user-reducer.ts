@@ -5,7 +5,7 @@ import {
   loginAction,
   logoutAction,
   updateUserAction,
-} from '../actions/user-actions';
+} from '../../actions/user-actions';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { TUser } from '@utils/types';
@@ -21,7 +21,7 @@ type TUserState = {
   isAuthChecked: boolean;
 };
 
-const initialState: TUserState = {
+export const initialState: TUserState = {
   user: null,
   isLoading: false,
   error: null,
@@ -90,3 +90,5 @@ export const { selectIsLoading, selectError, selectUser, selectIsAuthChecked } =
   userSlice.selectors;
 
 export const { setIsAuthChecked, setUser } = userSlice.actions;
+
+export default userSlice.reducer;

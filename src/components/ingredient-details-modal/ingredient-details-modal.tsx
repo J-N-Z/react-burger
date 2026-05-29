@@ -1,6 +1,5 @@
+import { getIngredientsSelector } from '@/services/ingredients/reducers/get-ingredients-reducer/get-ingredients-reducer';
 import { useNavigate, useParams } from 'react-router-dom';
-
-import { getIngredientsSelector } from '@services/ingredients/reducers/get-ingredients-reducer';
 
 import { useAppSelector } from '../../hooks';
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
