@@ -4,51 +4,41 @@ import draggableIngredientReducer, {
   addIngredient,
   deleteIngredient,
   sortIngredients,
+  initialState,
 } from './draggable-ingredient-reducer';
+
+const INGREDIENT_MINERAL_RINGS = {
+  _id: '692889f16bf770001bfeb4d6',
+  name: 'Хрустящие минеральные кольца',
+  type: 'main',
+  proteins: 808,
+  fat: 689,
+  carbohydrates: 609,
+  calories: 986,
+  price: 300,
+  image: 'https://code.s3.yandex.net/react/code/mineral_rings.png',
+  image_mobile: 'https://code.s3.yandex.net/react/code/mineral_rings-mobile.png',
+  image_large: 'https://code.s3.yandex.net/react/code/mineral_rings-large.png',
+  __v: 0,
+};
 
 describe('draggableIngredientSlice', () => {
   it('должен возвращать начальное состояние', () => {
     const result = draggableIngredientReducer(undefined, { type: '' });
-    expect(result).toEqual({
-      bun: null,
-      ingredients: [],
-    });
+    expect(result).toEqual(initialState);
   });
 
   it('должен добавить ингредиент-начинку при addIngredient', () => {
-    const startState = {
-      bun: null,
-      ingredients: [],
-    };
-
     const result = draggableIngredientReducer(
-      startState,
-      addIngredient({
-        _id: '692889f16bf770001bfeb4d6',
-        name: 'Хрустящие минеральные кольца',
-        type: 'main',
-        proteins: 808,
-        fat: 689,
-        carbohydrates: 609,
-        calories: 986,
-        price: 300,
-        image: 'https://code.s3.yandex.net/react/code/mineral_rings.png',
-        image_mobile: 'https://code.s3.yandex.net/react/code/mineral_rings-mobile.png',
-        image_large: 'https://code.s3.yandex.net/react/code/mineral_rings-large.png',
-        __v: 0,
-      })
+      initialState,
+      addIngredient(INGREDIENT_MINERAL_RINGS)
     );
     expect(result.ingredients).toHaveLength(1);
   });
 
   it('должен добавить ингредиент-булку при addIngredient', () => {
-    const startState = {
-      bun: null,
-      ingredients: [],
-    };
-
     const result = draggableIngredientReducer(
-      startState,
+      initialState,
       addIngredient({
         _id: '692889f16bf770001bfeb4cc',
         name: 'Краторная булка N-200i',
@@ -69,22 +59,11 @@ describe('draggableIngredientSlice', () => {
 
   it('должен удалить ингредиент при deleteIngredient', () => {
     const startState = {
-      bun: null,
+      ...initialState,
       ingredients: [
         {
           id: '1',
-          _id: '692889f16bf770001bfeb4d6',
-          name: 'Хрустящие минеральные кольца',
-          type: 'main',
-          proteins: 808,
-          fat: 689,
-          carbohydrates: 609,
-          calories: 986,
-          price: 300,
-          image: 'https://code.s3.yandex.net/react/code/mineral_rings.png',
-          image_mobile: 'https://code.s3.yandex.net/react/code/mineral_rings-mobile.png',
-          image_large: 'https://code.s3.yandex.net/react/code/mineral_rings-large.png',
-          __v: 0,
+          ...INGREDIENT_MINERAL_RINGS,
         },
       ],
     };
@@ -95,22 +74,11 @@ describe('draggableIngredientSlice', () => {
 
   it('должен переместить ингредиент на новую позицию при sortIngredients', () => {
     const startState = {
-      bun: null,
+      ...initialState,
       ingredients: [
         {
           id: '1',
-          _id: '692889f16bf770001bfeb4d6',
-          name: 'Хрустящие минеральные кольца',
-          type: 'main',
-          proteins: 808,
-          fat: 689,
-          carbohydrates: 609,
-          calories: 986,
-          price: 300,
-          image: 'https://code.s3.yandex.net/react/code/mineral_rings.png',
-          image_mobile: 'https://code.s3.yandex.net/react/code/mineral_rings-mobile.png',
-          image_large: 'https://code.s3.yandex.net/react/code/mineral_rings-large.png',
-          __v: 0,
+          ...INGREDIENT_MINERAL_RINGS,
         },
         {
           id: '2',

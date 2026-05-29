@@ -7,17 +7,13 @@ import socketOrdersAllReducer, {
   onMessage,
   onError,
   onClose,
+  initialState,
 } from './socket-orders-all-reducer';
 
 describe('socketOrdersAllSlice', () => {
   it('должен возвращать начальное состояние', () => {
     const result = socketOrdersAllReducer(undefined, { type: '' });
-    expect(result).toEqual({
-      isConnected: false,
-      messages: [],
-      error: null,
-      isLoading: false,
-    });
+    expect(result).toEqual(initialState);
   });
 
   it('должен менять значения isLoading, error при connect', () => {

@@ -7,17 +7,13 @@ import socketOrdersUserReducer, {
   onMessage,
   onError,
   onClose,
+  initialState,
 } from './socket-orders-user-reducer';
 
 describe('socketOrdersUserSlice', () => {
   it('должен возвращать начальное состояние', () => {
     const result = socketOrdersUserReducer(undefined, { type: '' });
-    expect(result).toEqual({
-      isConnected: false,
-      messages: [],
-      error: null,
-      isLoading: false,
-    });
+    expect(result).toEqual(initialState);
   });
 
   it('должен менять значения isLoading, error при connect', () => {

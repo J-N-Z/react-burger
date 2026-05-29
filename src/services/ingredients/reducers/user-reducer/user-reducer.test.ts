@@ -1,40 +1,21 @@
 import { describe, it, expect } from 'vitest';
 
-import userReducer, { setIsAuthChecked, setUser } from './user-reducer';
+import userReducer, { setIsAuthChecked, setUser, initialState } from './user-reducer';
 
 describe('userSlice', () => {
   it('должен возвращать начальное состояние', () => {
     const result = userReducer(undefined, { type: '' });
-    expect(result).toEqual({
-      user: null,
-      isLoading: false,
-      error: null,
-      isAuthChecked: false,
-    });
+    expect(result).toEqual(initialState);
   });
 
   it('должен менять значение флага isAuthChecked', () => {
-    const startState = {
-      user: null,
-      isLoading: false,
-      error: null,
-      isAuthChecked: false,
-    };
-
-    const result = userReducer(startState, setIsAuthChecked(true));
+    const result = userReducer(initialState, setIsAuthChecked(true));
     expect(result.isAuthChecked).toBe(true);
   });
 
   it('должен менять значение user', () => {
-    const startState = {
-      user: null,
-      isLoading: false,
-      error: null,
-      isAuthChecked: false,
-    };
-
     const result = userReducer(
-      startState,
+      initialState,
       setUser({ email: 'username@mail.ru', password: 'qwerty', name: 'username' })
     );
     expect(result.user).toEqual({

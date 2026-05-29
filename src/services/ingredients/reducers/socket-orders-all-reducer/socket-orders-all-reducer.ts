@@ -9,7 +9,7 @@ type SocketState = {
   isLoading: boolean;
 };
 
-const initialState: SocketState = {
+export const initialState: SocketState = {
   isConnected: false,
   messages: [],
   error: null,

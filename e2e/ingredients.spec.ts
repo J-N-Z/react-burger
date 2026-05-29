@@ -1,9 +1,11 @@
 import { test, expect } from '@playwright/test';
 
+import { API_URL_BASE, ENDPOINTS } from '../src/utils/constants';
+
 test('должен записать HAR-файл /ingredients', async ({ page }) => {
   // Начинаем запись HAR
   await page.routeFromHAR('./e2e/hars/ingredients.har', {
-    url: 'https://new-stellarburgers.education-services.ru/api/ingredients',
+    url: `${API_URL_BASE}${ENDPOINTS.INGREDIENTS}`,
     update: false, // Режим записи
   });
 

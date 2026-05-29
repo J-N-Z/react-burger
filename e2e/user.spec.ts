@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 
+import { API_URL_BASE, ENDPOINTS } from '../src/utils/constants';
+
 test('должен записать HAR-файл /user', async ({ page }) => {
   // Выполняем скрипт перед загрузкой страницы
   await page.addInitScript(() => {
@@ -9,7 +11,7 @@ test('должен записать HAR-файл /user', async ({ page }) => {
 
   // Начинаем запись HAR
   await page.routeFromHAR('./e2e/hars/user.har', {
-    url: 'https://new-stellarburgers.education-services.ru/api/auth/user',
+    url: `${API_URL_BASE}${ENDPOINTS.USER_DATA}`,
     update: false, // Режим записи
   });
 

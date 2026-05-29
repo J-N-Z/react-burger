@@ -12,7 +12,7 @@ type TDraggableIngredientState = {
   ingredients: TIngredientWithId[];
 };
 
-const initialState: TDraggableIngredientState = {
+export const initialState: TDraggableIngredientState = {
   bun: null,
   ingredients: [],
 };

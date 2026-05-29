@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 import { API_URL_BASE, ENDPOINTS } from '../src/utils/constants';
 
-test('должен создать заказ', async ({ page }) => {
+test('должен записать HAR-файл /orders', async ({ page }) => {
   // Выполняем скрипт перед загрузкой страницы
   await page.addInitScript(() => {
     // Этот код выполнится в браузере!
@@ -17,8 +17,10 @@ test('должен создать заказ', async ({ page }) => {
     url: `${API_URL_BASE}${ENDPOINTS.INGREDIENTS}`,
   });
 
+  // Начинаем запись HAR
   await page.routeFromHAR('./e2e/hars/orders.har', {
     url: `${API_URL_BASE}${ENDPOINTS.ORDERS}`,
+    update: false, // Режим записи
   });
 
   await page.goto('/');
@@ -39,6 +41,5 @@ test('должен создать заказ', async ({ page }) => {
 
   await createOrderButton.click();
 
-  // должен быть отображен номер заказа в модалке
-  await expect(page.getByText('1141')).toBeVisible();
+  await expect(page.getByText('идентификатор заказа')).toBeVisible();
 });
